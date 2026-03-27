@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#1f6b47" />
+      <stop offset="100%" stop-color="#124831" />
+    </linearGradient>
+    <linearGradient id="leaf" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#f2c24d" />
+      <stop offset="100%" stop-color="#ffd672" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="110" fill="url(#bg)" />
+  <circle cx="256" cy="256" r="178" fill="rgba(255,255,255,0.08)" />
+  <path
+    d="M190 324c0-79 55-144 131-160-16 60-55 112-118 156 43 13 88 7 137-18-36 56-88 86-157 86-34 0-60-26-60-64z"
+    fill="url(#leaf)"
+  />
+  <path
+    d="M205 300c43-40 93-77 149-112"
+    fill="none"
+    stroke="#f7fbf7"
+    stroke-linecap="round"
+    stroke-width="20"
+  />
+  <text
+    x="256"
+    y="438"
+    fill="#f7fbf7"
+    font-family="Trebuchet MS, sans-serif"
+    font-size="52"
+    font-weight="700"
+    text-anchor="middle"
+  >
+    BF
+  </text>
+</svg>

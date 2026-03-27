@@ -1,0 +1,18 @@
+{
+  "name": "Bell Fresh",
+  "short_name": "Bell Fresh",
+  "description": "Fresh salads, milk tea, rewards, checkout, and admin analytics in an installable demo app.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0f1b17",
+  "theme_color": "#1f6b47",
+  "icons": [
+    {
+      "src": "./bell-fresh-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
