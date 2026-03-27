@@ -4,9 +4,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -p tsconfig.app.json --noEmit && vite build",
-    "preview": "vite preview"
+    "dev": "node ./node_modules/vite/bin/vite.js",
+    "build": "node ./node_modules/typescript/bin/tsc -p tsconfig.app.json --noEmit && node ./node_modules/vite/bin/vite.js build",
+    "preview": "node ./node_modules/vite/bin/vite.js preview"
   },
   "dependencies": {
     "html2canvas": "^1.4.1",
