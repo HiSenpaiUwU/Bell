@@ -5,6 +5,7 @@
   --surface: rgba(255, 255, 255, 0.88);
   --surface-strong: #ffffff;
   --line: rgba(41, 74, 56, 0.12);
+  --heading: #183225;
   --text: #253328;
   --muted: #5f6f63;
   --brand: #1f6b47;
@@ -28,6 +29,7 @@
   --surface: rgba(13, 24, 20, 0.9);
   --surface-strong: #0f1b17;
   --line: rgba(170, 198, 183, 0.16);
+  --heading: #f3fbf5;
   --text: #edf6ee;
   --muted: #a2b6aa;
   --brand: #78d0a1;

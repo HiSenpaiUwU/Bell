@@ -178,6 +178,97 @@ export function MenuPage() {
         </div>
       </div>
 
+      <div className="menu-section">
+        <div className="section-heading section-heading--stacked">
+          <div>
+            <p className="eyebrow">Search + filters</p>
+            <h2>Find the right order faster</h2>
+            <p className="section-copy">
+              Search by item name or browse with quick filter buttons to jump
+              between salads, light snacks, and milk tea faster.
+            </p>
+          </div>
+        </div>
+
+        <div className="menu-toolbar">
+          <label className="menu-search">
+            <span>Search the menu</span>
+            <input
+              type="search"
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
+              placeholder="Search salads, light snacks, milk tea, flavors, or tags"
+            />
+          </label>
+
+          <div className="menu-filter-row" aria-label="Menu filters">
+            {filterButtons.map((filterButton) => (
+              <button
+                key={filterButton.key}
+                type="button"
+                className={`filter-chip${activeFilter === filterButton.key ? " is-active" : ""}`}
+                onClick={() => setActiveFilter(filterButton.key)}
+              >
+                {filterButton.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="menu-section">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">Browse results</p>
+            <h2>
+              {filteredProducts.length} menu item{filteredProducts.length === 1 ? "" : "s"} ready
+              to order
+            </h2>
+          </div>
+          <span className="experience-count">
+            {activeFilter === "all"
+              ? "Everything"
+              : filterButtons.find((button) => button.key === activeFilter)?.label}
+          </span>
+        </div>
+
+        {isReady ? (
+          filteredProducts.length > 0 ? (
+            <div className="menu-grid">
+              {filteredProducts.map((product) => (
+                <MenuCard
+                  key={product.id}
+                  product={product}
+                  actionLabel={product.category === "milk-tea" ? "Customize" : "Add to Cart"}
+                  onAction={() => handleProductAction(product)}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="empty-state menu-empty-state">
+              <h2>No items match that search yet.</h2>
+              <p>Try a different keyword or switch back to the full menu.</p>
+              <button
+                type="button"
+                className="cta-link"
+                onClick={() => {
+                  setSearchTerm("");
+                  setActiveFilter("all");
+                }}
+              >
+                Reset Filters
+              </button>
+            </div>
+          )
+        ) : (
+          <div className="menu-grid">
+            {Array.from({ length: 6 }, (_, index) => (
+              <article key={`browse-skeleton-${index}`} className="skeleton-card" />
+            ))}
+          </div>
+        )}
+      </div>
+
       {isLoggedIn && currentUser && !isAdmin ? (
         <section className="menu-section">
           <div className="section-heading section-heading--stacked">
@@ -343,44 +434,6 @@ export function MenuPage() {
         </div>
       </div>
 
-      <div className="menu-section">
-        <div className="section-heading section-heading--stacked">
-          <div>
-            <p className="eyebrow">Search + filters</p>
-            <h2>Find the right order faster</h2>
-            <p className="section-copy">
-              Search by item name or browse with quick filter buttons to jump
-              between salads, light snacks, and milk tea faster.
-            </p>
-          </div>
-        </div>
-
-        <div className="menu-toolbar">
-          <label className="menu-search">
-            <span>Search the menu</span>
-            <input
-              type="search"
-              value={searchTerm}
-              onChange={(event) => setSearchTerm(event.target.value)}
-              placeholder="Search salads, light snacks, milk tea, flavors, or tags"
-            />
-          </label>
-
-          <div className="menu-filter-row" aria-label="Menu filters">
-            {filterButtons.map((filterButton) => (
-              <button
-                key={filterButton.key}
-                type="button"
-                className={`filter-chip${activeFilter === filterButton.key ? " is-active" : ""}`}
-                onClick={() => setActiveFilter(filterButton.key)}
-              >
-                {filterButton.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
       {recentlyViewedProducts.length > 0 ? (
         <div className="menu-section">
           <div className="section-heading">
@@ -403,59 +456,6 @@ export function MenuPage() {
           </div>
         </div>
       ) : null}
-
-      <div className="menu-section">
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow">Browse results</p>
-            <h2>
-              {filteredProducts.length} menu item{filteredProducts.length === 1 ? "" : "s"} ready
-              to order
-            </h2>
-          </div>
-          <span className="experience-count">
-            {activeFilter === "all"
-              ? "Everything"
-              : filterButtons.find((button) => button.key === activeFilter)?.label}
-          </span>
-        </div>
-
-        {isReady ? (
-          filteredProducts.length > 0 ? (
-            <div className="menu-grid">
-              {filteredProducts.map((product) => (
-                <MenuCard
-                  key={product.id}
-                  product={product}
-                  actionLabel={product.category === "milk-tea" ? "Customize" : "Add to Cart"}
-                  onAction={() => handleProductAction(product)}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="empty-state menu-empty-state">
-              <h2>No items match that search yet.</h2>
-              <p>Try a different keyword or switch back to the full menu.</p>
-              <button
-                type="button"
-                className="cta-link"
-                onClick={() => {
-                  setSearchTerm("");
-                  setActiveFilter("all");
-                }}
-              >
-                Reset Filters
-              </button>
-            </div>
-          )
-        ) : (
-          <div className="menu-grid">
-            {Array.from({ length: 6 }, (_, index) => (
-              <article key={`browse-skeleton-${index}`} className="skeleton-card" />
-            ))}
-          </div>
-        )}
-      </div>
 
       <div className="menu-section">
         <div className="section-heading">
