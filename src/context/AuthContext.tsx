@@ -76,6 +76,7 @@ const SOCIAL_PROVIDER_LABELS: Record<SocialProvider, string> = {
   facebook: "Facebook",
 };
 const LEGACY_PROVIDER_PASSWORD_PATTERN = /demo|guest|provider|social/i;
+const DEFAULT_ADMIN_PASSWORD = "09206339138";
 
 const DEFAULT_ADMIN_USER: User = {
   id: ADMIN_USER_ID,
@@ -88,7 +89,7 @@ const DEFAULT_ADMIN_USER: User = {
   github: "https://github.com/bellfresh-admin",
   bio: "Owner dashboard for Bell Fresh analytics, messaging, and community updates.",
   favoriteEmoji: "👨‍💼",
-  password: "BellFreshAdmin2026!",
+  password: DEFAULT_ADMIN_PASSWORD,
   createdAt: "2026-03-23T00:00:00.000Z",
 };
 
@@ -135,6 +136,20 @@ function sanitizeStoredUser(user: User): User {
       : undefined,
     savedCheckoutDetails: buildSavedCheckoutDetails(user.savedCheckoutDetails),
     createdAt: user.createdAt || new Date().toISOString(),
+  };
+}
+
+function syncAdminCredentials(user: User): User {
+  const sanitizedUser = sanitizeStoredUser(user);
+
+  if (sanitizedUser.role !== "admin" && sanitizedUser.id !== ADMIN_USER_ID) {
+    return sanitizedUser;
+  }
+
+  return {
+    ...sanitizedUser,
+    ...DEFAULT_ADMIN_USER,
+    createdAt: sanitizedUser.createdAt || DEFAULT_ADMIN_USER.createdAt,
   };
 }
 
@@ -315,9 +330,19 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   useEffect(() => {
     setUsers((currentUsers) => {
-      let nextUsers = currentUsers.map((user) => sanitizeStoredUser(user)).filter(
-        (user) => !isLegacyProviderPlaceholder(user),
-      );
+      let nextUsers = currentUsers
+        .map((user) => syncAdminCredentials(user))
+        .filter((user) => !isLegacyProviderPlaceholder(user));
+
+      const seenUserIds = new Set<string>();
+      nextUsers = nextUsers.filter((user) => {
+        if (seenUserIds.has(user.id)) {
+          return false;
+        }
+
+        seenUserIds.add(user.id);
+        return true;
+      });
 
       if (!nextUsers.some((user) => user.id === ADMIN_USER_ID)) {
         nextUsers = [DEFAULT_ADMIN_USER, ...nextUsers];
