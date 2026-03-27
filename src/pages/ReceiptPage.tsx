@@ -1,5 +1,3 @@
-import html2canvas from "html2canvas";
-import { jsPDF } from "jspdf";
 import { useEffect, useRef, useState } from "react";
 import { OrderFlowSteps } from "../components/order/OrderFlowSteps";
 import { useCart } from "../context/CartContextFixed";
@@ -55,6 +53,11 @@ export function ReceiptPage() {
     setIsDownloading(true);
 
     try {
+      const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
+        import("html2canvas"),
+        import("jspdf"),
+      ]);
+
       if (document.fonts?.ready) {
         await document.fonts.ready;
       }
